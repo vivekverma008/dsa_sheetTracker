@@ -1,0 +1,26 @@
+{
+  "name": "dsatracker",
+  "version": "1.0.0",
+  "description": "todo for dsa",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vivekverma008/dsa_sheetTracker.git"
+  },
+  "author": "vivek",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vivekverma008/dsa_sheetTracker/issues"
+  },
+  "homepage": "https://github.com/vivekverma008/dsa_sheetTracker#readme",
+  "dependencies": {
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "express-ejs-layouts": "^2.5.1",
+    "mongoose": "^6.9.0"
+  }
+}
