@@ -1,18 +1,18 @@
 let topics = [
-    "Array",
-    "Matrix",
-    "String",
-    "Searching & Sorting",
-    "LinkedList",
-    "Binary Trees",
-    "Binary Search Trees",
-    "Greedy",
-    "BackTracking",
-    "Stacks & Queues",
-    "Heap",
-    "Graph",
-    "Trie",
-    "Dynamic Programming",
-    "Bit Manipulation"
+    "array",
+    "matrix",
+    "string",
+    "searching & sorting",
+    "linkedList",
+    "binary trees",
+    "binary search trees",
+    "greedy",
+    "backtracking",
+    "stacks & queues",
+    "heap",
+    "graph",
+    "trie",
+    "dynamic programming",
+    "bit manipulation"
 ]
 module.exports = topics;

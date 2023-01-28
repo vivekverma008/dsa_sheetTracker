@@ -11,6 +11,10 @@ const userSchema = new Schema({
         type : 'string',
         required : true
     },
+    password : {
+        type : 'string',
+        required : true
+    },
     problems : [{
         type : Schema.Types.ObjectId,
         ref : 'Problems'

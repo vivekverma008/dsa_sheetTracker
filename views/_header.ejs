@@ -1,0 +1,20 @@
+<header>
+    <h2>Header <%if(locals.user){%>
+                    <a href="/user">
+                        <%= user.name %> ;
+                    </a>
+                    <a href="/user/signout">
+                        signOut
+                    </a>
+                <% }else{ %>
+                            <a href="/user/signin">
+                                signin
+                            </a>
+                            <a href="/user/signup">
+                                signUp
+                            </a>
+
+                    <% } %> 
+     
+    </h2>
+</header>
