@@ -27,7 +27,7 @@ app.use(session({
         autoRemoveInterval : 20
     }),
     cookie : {
-        maxAge  : (1000 * 60 * 24)
+        maxAge  : (1000 * 60 * 100)
     }
 }));
 app.use(passport.initialize());

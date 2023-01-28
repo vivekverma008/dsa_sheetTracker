@@ -9,12 +9,38 @@
         <div>
             <center>
                 <p>all questions</p>
+                
+                <% let ob={} ; %> 
+                <% if(locals.user){ %> 
+                    <% for(ques of user.problems){ %>
+                        <% let idd = ques.id; ob[idd] = true;%> 
+                    <% } %>  
+                <% } %> 
                 <% for(question of all_problems){ %>
-                    <a href="<%=question.url%>">
-                        <%= question.name %>
-                            <br>
-                    </a>
+                    
+                    <%if(locals.user){ %> 
+                        <a href="<%=question.url%>">
+                            <%= question.name %>
+                        </a>
+                      
+                        
+                        <form action="/problems/update_problem" method="post">
+                            <% if(ob[question.id]){ %>
+                                <input type="checkbox" name="done" onchange="this.form.submit()" checked>done
+                            <% }else {%> 
+                            
+                                <input type="checkbox" name="done" onchange="this.form.submit()">
+                            <% } %> 
+                            <input type="hidden" name="id" value=<%=question.id%>>
+                        </form>
+                        
+                    <% }else{ %>
+                        <a href="<%=question.url%>">
+                            <%= question.name %>
+                        </a>
 
-                    <%}%>
+                    <% } %> 
+                    <br>
+                <%}%>
             </center>
         </div>
