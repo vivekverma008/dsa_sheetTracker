@@ -40,7 +40,7 @@ module.exports.createSession = (req,res)=>{
     res.redirect('/user');
 }
 module.exports.destroySession = (req,res)=>{
-    if(req.isAuthenticated())return res.redirect('signin');
+    if(!req.isAuthenticated())return res.redirect('signin');
     req.logout(function(err){
         if(err){
             res.redirect('back');

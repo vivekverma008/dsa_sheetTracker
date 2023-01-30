@@ -14,8 +14,11 @@ app.use(express.urlencoded({extended : false}));
 app.use(cookieParser());
 app.set('view engine', 'ejs');
 app.set('views' , './views');
+app.use(express.static('assets'));
 app.use(layout);
 app.set('layout','layouts');
+app.set('layout extractStyles' , true);
+app.set('layout extractScripts' , true);
 app.use(session({
     name : 'user_key',
     secret : 'anything',

@@ -17,7 +17,9 @@ module.exports.show = function(req,res){
         }
         if(req.isAuthenticated()){
             User.findById(req.user.id).
-            populate('problems').exec(function(err,user){
+            populate('problems').
+            populate('bookMarks').
+            exec(function(err,user){
                 if(err){
                     console.log('error populating');
                     return res.redirect('back');
@@ -78,6 +80,7 @@ module.exports.update_problem = function(req,res){
                         }else{
                             console.log('update pull in user');
                             console.log(success);
+
                             return res.redirect('back');
                         }
     
@@ -88,4 +91,52 @@ module.exports.update_problem = function(req,res){
         }
         
     })
+}
+
+
+//problems/bookmark/?id=absc&type=Bookmark&toggle=1;
+module.exports.toggleBookmark = function(req,res){
+    let pid = req.query.id;
+    Problems.findById(pid,(err,problem)=>{
+        if(err){
+            console.log('error toggling bookmark');
+            return res.redirect('back');
+        }
+        if(req.isAuthenticated()){
+            if(req.query.toggle == '1'){
+                User.findByIdAndUpdate(req.user.id,
+                    {$push : {bookMarks : problem.id}},
+                    function(err,user){
+                        if(err){
+                            console.log('error toggling bookmark');
+                            return res.redirect('back');
+                        }
+                        else{
+                            console.log('updated toggled book mark')
+                            res.redirect('back');
+                        }
+                    }
+                    
+                );
+            }else{
+                User.findByIdAndUpdate(req.user.id,
+                    {$pull : {bookMarks : problem.id}},
+                    function(err,user){
+                        if(err){
+                            console.log('error toggling bookmark');
+                            return res.redirect('back');
+                        }
+                        else{
+                            console.log('updated toggled book mark')
+                            res.redirect('back');
+                        }
+                        
+                    }
+                    
+                );
+            }
+           
+                
+        }
+    });
 }
