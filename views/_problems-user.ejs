@@ -1,0 +1,32 @@
+<div  class="overflow-auto container text-center" style="height: 775px; width : 1000px ">
+    <table class = "table">
+        <thead>
+            <th scope="col"> # </th>
+            <th>Bookmark</th>
+            <th scope="col">Question</th>
+            <th>notes</th>                           
+        </thead>
+        <%-include('_problemsTableBody')-%> 
+    </table>
+</div>
+
+
+
+<div class="note-area notedisplay" style="display: none;">
+    <div class="note-container notedisplay" style="display: none;">
+        <div class="question-title notedisplay" style="color: black;">
+         
+        </div>
+        <form action="/problems/notes/updateNote" class="notedisplay" method="post">'
+            <textarea name="content" maxlength="432" class="note-section notedisplay" placeholder="your notes here" style="display: none;" id = "my_note_content">
+             
+            </textarea>
+            <input type="hidden" name="pid" value="ll" id="note_pid">
+            <div class="button-container">
+                <button class="note-exit notedisplay" style="display: none;" onclick="closeNts()" type="button">Close</button>
+                <button class="note-save notedisplay" style="display: none;" type="submit">Save</button>
+            </div>
+        </form>
+        
+    </div>
+</div>

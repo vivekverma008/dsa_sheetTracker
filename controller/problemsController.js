@@ -24,7 +24,11 @@ module.exports.show = function(req,res){
                     console.log('error populating');
                     return res.redirect('back');
                 }
+                let topicName = req.query.topic;
+                if(!req.query.topic)topicName = "All Questions"
+                
                 return res.render('problems',{
+                    topicName : topicName ,
                     topics : topics ,
                     all_problems : all_problems,
                     user : user
