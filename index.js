@@ -9,6 +9,9 @@ const passportLocal = require('./config/passport-local-strategy');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
+const {flash} = require('express-flash-message');
+
+const customMware = require('./config/middleware');
 
 app.use(express.urlencoded({extended : false}));
 app.use(cookieParser());
@@ -36,8 +39,8 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(passport.setUserAuthentication);
-
-
+app.use(flash());
+app.use(customMware.setFlash);
 app.use('/',require('./routes'));
 
 

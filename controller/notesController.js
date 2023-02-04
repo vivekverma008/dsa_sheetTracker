@@ -1,43 +1,73 @@
 const Note = require('../models/notes');
 const User = require('../models/user');
 const Problem = require('../models/problems');
-const { model } = require('mongoose');
 
 
-module.exports.getNote = function(req,res){
+
+module.exports.getNote = async function(req,res){
     let pid = req.params.id;
 
     console.log(pid);
-    Note.findOne({user : req.user.id , problem : pid},function(err,note){
-        if(err){console.log('error');return res.redirect('back');}
-        res.cookie('note',note,{maxAge : 1000*60*60*24});
-        // console.log(note);
+    try{
+        let note = await Note.findOne({user : req.user.id , problem : pid});
+        let problem = await Problem.findOne({_id : pid});
+
+        if(req.xhr){
+            return res.status(200).json({
+                data:{
+                    problem : problem,
+                    note : note
+                },
+                message : "note there"
+
+            });
+        }else{
+            console.log('error working with xhr');
+            res.redirect('back');
+        }
+
+    }catch(err){
+        console.log(err);
         return res.redirect('back');
-    });
+    }
+    
+
+
+    // Note.findOne({user : req.user.id , problem : pid},function(err,note){
+    //     if(err){console.log('error');return res.redirect('back');}
+    //     res.cookie('note',note,{maxAge : 1000*60*60*24});
+    //     // console.log(note);
+    //     return res.redirect('back');
+    // });
 };
-module.exports.updateNote = function(req,res){
+module.exports.updateNote = async function(req,res){
     console.log('in update');
     let pid = req.body.pid;
     console.log(pid);
-    Problem.findById(pid , function(err,problem){
-        if(err){console.log(err); res.redirect('back');}
-        else{
-            if(!problem) return res.redirect('back');
-            Note.updateOne(
-                {user : req.user.id , problem : pid},
+    
+    try{
+        let problem = await Problem.findById(pid);
+        if(req.xhr){
+            if(!problem){
+                return res.status(200).json({
+                    message : "donot fiddle with the question id"
+                });
+            }
+            let success = await Note.updateOne(
+                {user : req.user.id ,problem : pid} ,
                 {content : req.body.content},
-                {upsert : true},
-                function (err, success){
-                    if(err){console.log(err); return res.redirect('back');}
-                    else{
-                        console.log('updated  notes',success);
-                        return res.redirect('back');
-                     }
-        
-                }
-            )
-           
+                {upsert : true}
+            );
+            console.log(success);
+            return res.status(200).json({
+                message : 'updataed congratulations'
+            });
+
         }
-    });
+    }catch(err){
+        console.log(err);
+        return res.redirect('back');
+    }
+
     
 };

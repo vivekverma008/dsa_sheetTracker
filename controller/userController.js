@@ -36,7 +36,8 @@ module.exports.createUser = (req,res)=>{
         });
     });
 }
-module.exports.createSession = (req,res)=>{
+module.exports.createSession = async (req,res)=>{
+    await req.flash('success','Logged In');
     res.redirect('/user');
 }
 module.exports.destroySession = (req,res)=>{
@@ -47,7 +48,8 @@ module.exports.destroySession = (req,res)=>{
            return console.log('error logging out');
         }
         res.clearCookie('user_key');
-        return res.redirect('/user');
+        req.flash('success','Logged Out');
+        return res.redirect('signin');
         
     });
 }

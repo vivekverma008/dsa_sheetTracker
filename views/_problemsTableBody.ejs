@@ -59,11 +59,9 @@
             </td>
             <td>
                 
-                <a href="/problems/notes/<%=question.id%>" >
-                    nts
+                <a href="/problems/notes/<%=question.id%>" id="note-<%=question.id%>" class="_nts">
+                    <i class="bi bi-journal-code"></i>
                 </a>
-                 
-                <button  onclick="openNts('<%= JSON.stringify(question)%>')"  style="height: 10px; width: 5px;"></button>
             </td>
         <% } %> 
 </tbody>
