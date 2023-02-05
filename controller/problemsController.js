@@ -2,7 +2,7 @@ const topics = require('../data/topics');
 const Problems = require('../models/problems');
 const luvBabbar = require('../data/luvBabbar');
 const User = require('../models/user');
-
+var topicName = "";
 module.exports.show = function(req,res){
     // >> only first time to get data in database :)
     // Problems.create(luvBabbar,function(err){
@@ -24,7 +24,7 @@ module.exports.show = function(req,res){
                     console.log('error populating');
                     return res.redirect('back');
                 }
-                let topicName = req.query.topic;
+                topicName = req.query.topic;
                 if(!req.query.topic)topicName = "All Questions"
                 
                 return res.render('problems',{
@@ -48,56 +48,50 @@ module.exports.show = function(req,res){
     })
 
 }
-module.exports.update_problem = function(req,res){
-    // console.log(req.body);
-    
-    Problems.findById(req.body.id,{returnDocuments : 'after'},function(err,problem){
-        if(err){
-            console.log(err);
-            console.log('error checking question');
-            return res.redirect('back');
-        }else{
-            if(req.body.done == 'on'){
-                User.findByIdAndUpdate(
-                    req.user.id,
-                    {$push : {problems : problem}},
-                    function(err,success){
-                        if(err){
-                            console.log('error updatingPush in user -->problems');
-                            return res.redirect('back');
-                        }else{
-                            console.log('updated PUsh in user');
-                            console.log(success);
-                            return res.redirect('back');
-                        }
-    
-                    }
-                )
-            }else{
-                User.findByIdAndUpdate(
-                    req.user.id,
-                    {$pull : {problems : problem.id}},
-                    function(err,success){
-                        if(err){
-                            console.log('error updatingPull in user -->problems');
-                            return res.redirect('back');
-                        }else{
-                            console.log('update pull in user');
-                            console.log(success);
+module.exports.update_problem = async function(req,res){
+    console.log('in updata problem');
+    console.log(req.query);
 
-                            return res.redirect('back');
-                        }
-    
-                    }
-                )
-            }
+    try{    
+        let problem = await  Problems.findById(req.body.id);
+        let toadd = 0;
+        if(req.body.done == 'on'){
+            let ack = await User.findByIdAndUpdate(
+                                req.user.id,
+                                {$push : {problems : problem}});
+            // console.log(ack);
+            toadd += 1;
+
+        }else{
+           
+                let ack = await User.findByIdAndUpdate(
+                                    req.user.id,
+                                    {$pull : {problems : problem.id}});
             
+                // console.log(ack);
+                toadd -= 1;
         }
-        
-    })
+        if(req.xhr){
+            console.log(topicName);
+            return res.status(200).json({
+                data :{
+                   user : req.user,
+                   add : toadd ,
+                //    all_problems : res.locals.all_problems.length
+                },
+                message : 'updated problems'
+            });
+        }
+       
+       
+
+    }catch(err){
+        console.log(err);
+        return res.redirect('back');
+    }
 }
 
-
+    
 //problems/bookmark/?id=absc&type=Bookmark&toggle=1;
 module.exports.toggleBookmark = function(req,res){
     let pid = req.query.id;

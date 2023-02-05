@@ -35,7 +35,16 @@
                 
                 
                 <% if(locals.user){ %> <%# If the user exists  %>
-                    <h3 class = "text-center"><%=user.problems.length%>/<%=all_problems.length%></h3> 
+                    <div class="ques-container">
+                        <div id= "ques-prog-container" style="display: inline;">
+                            <h3 class = "text-center" id = "question-progress"><%=user.problems.length%>/</h3>
+                        </div>
+                        <h3 class = "text-center" > <%=all_problems.length%></h3>
+                           
+
+                    </div>
+                    
+                     
                     <%-include('_problems-user.ejs')-%> 
                 <%}else{%>
                     <div  class="overflow-auto container text-center" style="height: 775px; width : 1000px ">

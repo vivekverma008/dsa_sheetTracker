@@ -1,4 +1,4 @@
-<tbody>
+<tbody >
     <% let ob={} ; let bk_mrk_ob = {};%> 
     <% for(ques of user.problems){ %>
         <% let idd = ques.id; ob[idd] = true;%> <%# true is usr did ques  %>
@@ -37,14 +37,14 @@
                             </a>
                         </div>
                         <div class="col">
-                            <form action="/problems/update_problem" method="post">
+                            <form class= "form-ques-check" action="/problems/update_problem" method="post">
                                 <% if(ob[question.id]){ %>
                                     <div class="form-check form-switch">
-                                        <input class="form-check-input btn btn-success" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked  name="done" onchange="this.form.submit()">
+                                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" name = "done" checked >
                                     </div>
                                 <% }else {%> 
                                     <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="done" onchange="this.form.submit()">   
+                                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="done">   
                                     </div>
                                     
                                 <% } %> 

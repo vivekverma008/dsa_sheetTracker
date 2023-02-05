@@ -9,11 +9,12 @@ function closeNav(){
     document.getElementById("mySidebar").style.width="1px";
     document.getElementById("main").style.marginLeft = "1px";
 }
-function openNts(question,note){
+
+let openNts = function (question,note){
     if(note){
-        $('#my_note_content').html(note.content);
+        $('#my_note_content').val(`${note.content}`);
     }else{
-        $('#my_note_content').html("")
+        $('#my_note_content').val('');
     }
         
     $('.question-title').html(question.name);
@@ -31,6 +32,7 @@ function closeNts(){
     for(let doc of noteDisp){
         doc.style.display= "none";
     }
+    $('#my_note_content').html('');
 
 }
 
@@ -58,11 +60,12 @@ $('#note-form').submit(function(e){
 $('._nts').click(function(e){
     e.preventDefault();
     let openLink = e.currentTarget;
-    console.log();
+    console.log(openLink);
     $.ajax({
         type:'get',
         url : $(openLink).prop('href'),
         success : function(data){
+            console.log(data.data.note);
             openNts(data.data.problem,data.data.note );
         },
         error : function(err){
@@ -72,5 +75,32 @@ $('._nts').click(function(e){
 
 })
 
+let ChangeProgress = function(data){
+    let userProbLen = data.data.user.problems.length;
+    let add = data.data.add;
+    
+    $('#question-progress').remove();
+    console.log(userProbLen);
+    let ob = $(`<h3 class = "text-center" id = "question-progress">${userProbLen + add}/</h3>`);
+    console.log(add);
+    $('#ques-prog-container').append(ob);
+}
 
+
+
+$('.form-ques-check').click(function(e){
+    // let form = $(e.currentTarget);
+    $.ajax({
+        type : 'post',
+        url : '/problems/update_problem',
+        data : $(this).serialize(),
+        success: function(data){
+            console.log(data);
+           ChangeProgress(data);
+        },
+        error : function(err){
+            console.log(err.responseText);
+        }
+    })
+})
 
